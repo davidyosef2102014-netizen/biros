@@ -8,206 +8,123 @@
 * { margin:0; padding:0; box-sizing:border-box; user-select:none; }
 body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidden; width:100vw; height:100vh; background:#000; }
 
-/* ── WALLPAPER ── */
-#wallpaper {
-  position:fixed; inset:0; z-index:0;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-}
-@keyframes gradientShift {
-  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
-}
-#wallpaper::after {
-  content:'';position:absolute;inset:0;
-  background: radial-gradient(ellipse at 30% 40%, rgba(100,80,255,0.3) 0%, transparent 60%),
-              radial-gradient(ellipse at 70% 70%, rgba(255,80,150,0.2) 0%, transparent 50%);
-}
+/* WALLPAPER */
+#wallpaper { position:fixed; inset:0; z-index:0; background:linear-gradient(135deg,#0f0c29,#302b63,#24243e); background-size:400% 400%; animation:gradientShift 15s ease infinite; }
+@keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+#wallpaper::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 40%,rgba(100,80,255,.3) 0%,transparent 60%),radial-gradient(ellipse at 70% 70%,rgba(255,80,150,.2) 0%,transparent 50%); }
 
-/* ── MENU BAR ── */
-#menubar {
-  position:fixed; top:0; left:0; right:0; height:28px; z-index:1000;
-  background: rgba(30,30,40,0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 16px; color:#fff; font-size:13px;
-}
+/* MENU BAR */
+#menubar { position:fixed; top:0; left:0; right:0; height:28px; z-index:1000; background:rgba(30,30,40,.75); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:space-between; padding:0 16px; color:#fff; font-size:13px; }
 #menubar .left { display:flex; align-items:center; gap:20px; }
-#menubar .right { display:flex; align-items:center; gap:14px; }
-.apple-logo { font-size:16px; cursor:pointer; opacity:0.9; }
-.menu-item { cursor:pointer; opacity:0.85; transition:opacity 0.2s; }
+#menubar .right { display:flex; align-items:center; gap:14px; font-size:12px; }
+.apple-logo { font-size:16px; cursor:pointer; opacity:.9; }
+.menu-item { cursor:pointer; opacity:.85; transition:opacity .2s; }
 .menu-item:hover { opacity:1; }
-#clock { font-weight:500; font-size:12px; }
 
-/* ── DESKTOP ICONS ── */
+/* DESKTOP */
 #desktop { position:fixed; inset:28px 0 80px 0; z-index:1; padding:20px; display:flex; flex-direction:column; align-items:flex-end; gap:16px; }
-.desktop-icon {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  cursor:pointer; padding:8px; border-radius:12px; width:80px;
-  transition:background 0.2s;
-}
-.desktop-icon:hover { background:rgba(255,255,255,0.1); }
-.desktop-icon .icon-img {
-  width:56px; height:56px; border-radius:14px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:28px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
-.desktop-icon span { color:#fff; font-size:11px; text-align:center; text-shadow:0 1px 4px rgba(0,0,0,0.8); line-height:1.3; }
+.desktop-icon { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; padding:8px; border-radius:12px; width:80px; transition:background .2s; }
+.desktop-icon:hover { background:rgba(255,255,255,.1); }
+.desktop-icon .icon-img { width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 20px rgba(0,0,0,.4); }
+.desktop-icon span { color:#fff; font-size:11px; text-align:center; text-shadow:0 1px 4px rgba(0,0,0,.8); line-height:1.3; }
 
-/* ── DOCK ── */
-#dock {
-  position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
-  z-index:1000; display:flex; align-items:flex-end; gap:10px;
-  background: rgba(30,30,40,0.6);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:20px; padding:8px 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
-.dock-item {
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-  cursor:pointer; position:relative; transition:transform 0.2s;
-}
+/* DOCK */
+#dock { position:fixed; bottom:12px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; align-items:flex-end; gap:10px; background:rgba(30,30,40,.6); backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:8px 14px; box-shadow:0 8px 32px rgba(0,0,0,.5); max-width:95vw; overflow-x:auto; }
+.dock-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; position:relative; transition:transform .2s; flex-shrink:0; }
 .dock-item:hover { transform:scale(1.25) translateY(-8px); }
 .dock-item:hover .dock-label { opacity:1; transform:translateY(0); }
-.dock-icon {
-  width:52px; height:52px; border-radius:14px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:28px; box-shadow:0 4px 16px rgba(0,0,0,0.4);
-  transition:box-shadow 0.2s;
-}
-.dock-item:hover .dock-icon { box-shadow:0 8px 24px rgba(0,0,0,0.6); }
-.dock-label {
-  position:absolute; bottom:62px; background:rgba(30,30,40,0.9);
-  color:#fff; font-size:11px; padding:3px 8px; border-radius:6px;
-  white-space:nowrap; opacity:0; transform:translateY(4px);
-  transition:all 0.2s; pointer-events:none;
-  border:1px solid rgba(255,255,255,0.1);
-}
+.dock-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 16px rgba(0,0,0,.4); }
+.dock-label { position:absolute; bottom:62px; background:rgba(30,30,40,.9); color:#fff; font-size:11px; padding:3px 8px; border-radius:6px; white-space:nowrap; opacity:0; transform:translateY(4px); transition:all .2s; pointer-events:none; border:1px solid rgba(255,255,255,.1); }
 .dock-dot { width:4px; height:4px; background:#fff; border-radius:50%; opacity:0; }
-.dock-item.running .dock-dot { opacity:0.7; }
-.dock-sep { width:1px; height:44px; background:rgba(255,255,255,0.2); margin:0 4px; }
+.dock-item.running .dock-dot { opacity:.7; }
+.dock-sep { width:1px; height:44px; background:rgba(255,255,255,.2); margin:0 4px; }
 
-/* ── WINDOWS ── */
-.window {
-  position:fixed; z-index:500;
-  background:rgba(28,28,36,0.92);
-  backdrop-filter:blur(40px);
-  -webkit-backdrop-filter:blur(40px);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:14px;
-  box-shadow:0 24px 64px rgba(0,0,0,0.7);
-  min-width:320px; min-height:200px;
-  display:none; flex-direction:column;
-  overflow:hidden; resize:both;
-}
-.window.active { z-index:600; border-color:rgba(255,255,255,0.2); }
-.window.visible { display:flex; animation:windowOpen 0.25s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes windowOpen {
-  from { opacity:0; transform:scale(0.85); }
-  to   { opacity:1; transform:scale(1); }
-}
+/* WINDOWS */
+.window { position:fixed; z-index:500; background:rgba(28,28,36,.95); backdrop-filter:blur(40px); border:1px solid rgba(255,255,255,.12); border-radius:14px; box-shadow:0 24px 64px rgba(0,0,0,.7); min-width:320px; min-height:200px; display:none; flex-direction:column; overflow:hidden; resize:both; }
+.window.active { z-index:600; border-color:rgba(255,255,255,.2); }
+.window.visible { display:flex; animation:windowOpen .25s cubic-bezier(.34,1.56,.64,1); }
+@keyframes windowOpen { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+@keyframes windowClose { to{opacity:0;transform:scale(.85)} }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
 
-.titlebar {
-  height:40px; display:flex; align-items:center; padding:0 14px;
-  background:rgba(40,40,52,0.8); border-bottom:1px solid rgba(255,255,255,0.07);
-  cursor:move; gap:8px; flex-shrink:0;
-}
+.titlebar { height:40px; display:flex; align-items:center; padding:0 14px; background:rgba(40,40,52,.8); border-bottom:1px solid rgba(255,255,255,.07); cursor:move; gap:8px; flex-shrink:0; }
 .traffic-lights { display:flex; gap:7px; }
-.tl { width:13px; height:13px; border-radius:50%; cursor:pointer; transition:filter 0.2s; }
-.tl:hover { filter:brightness(1.3); }
-.tl.close  { background:#ff5f57; }
-.tl.min    { background:#febc2e; }
-.tl.max    { background:#28c840; }
-.win-title { flex:1; text-align:center; color:rgba(255,255,255,0.7); font-size:13px; font-weight:500; }
-
+.tl { width:13px; height:13px; border-radius:50%; cursor:pointer; transition:filter .2s; }
+.tl.close { background:#ff5f57; } .tl.min { background:#febc2e; } .tl.max { background:#28c840; }
+.win-title { flex:1; text-align:center; color:rgba(255,255,255,.7); font-size:13px; font-weight:500; }
 .win-body { flex:1; overflow:hidden; position:relative; }
 .win-body iframe { width:100%; height:100%; border:none; background:#fff; }
 
-/* ── BROWSER WINDOW ── */
-.browser-bar {
-  display:flex; align-items:center; gap:8px;
-  padding:8px 12px; background:rgba(35,35,46,0.9);
-  border-bottom:1px solid rgba(255,255,255,0.07);
-  flex-shrink:0;
-}
-.browser-bar input {
-  flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
-  border-radius:8px; padding:5px 12px; color:#fff; font-size:12px; outline:none;
-  transition:border-color 0.2s;
-}
-.browser-bar input:focus { border-color:rgba(120,100,255,0.6); }
-.browser-bar button {
-  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
-  border-radius:7px; color:#fff; width:28px; height:28px; cursor:pointer;
-  font-size:14px; transition:background 0.2s;
-}
-.browser-bar button:hover { background:rgba(255,255,255,0.15); }
+/* BROWSER BAR */
+.browser-bar { display:flex; align-items:center; gap:8px; padding:8px 12px; background:rgba(35,35,46,.9); border-bottom:1px solid rgba(255,255,255,.07); flex-shrink:0; }
+.browser-bar input { flex:1; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:5px 12px; color:#fff; font-size:13px; outline:none; user-select:text; }
+.browser-bar input:focus { border-color:rgba(120,100,255,.6); }
+.browser-bar button { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:7px; color:#fff; width:28px; height:28px; cursor:pointer; font-size:14px; transition:background .2s; }
+.browser-bar button:hover { background:rgba(255,255,255,.18); }
+#browser-new-tab { background:rgba(120,100,255,.3); font-size:11px; width:auto; padding:0 10px; }
 
-/* ── SPOTLIGHT ── */
-#spotlight-overlay {
-  display:none; position:fixed; inset:0; z-index:2000;
-  background:rgba(0,0,0,0.4); backdrop-filter:blur(8px);
-  align-items:flex-start; justify-content:center; padding-top:15vh;
-}
+/* BROWSER NO-LOAD */
+.browser-fallback { display:none; flex-direction:column; align-items:center; justify-content:center; height:100%; background:#1a1a2e; color:#fff; gap:16px; text-align:center; padding:20px; }
+.browser-fallback button { background:linear-gradient(135deg,#6c63ff,#a855f7); border:none; border-radius:12px; color:#fff; padding:12px 24px; font-size:15px; cursor:pointer; }
+
+/* APP STORE */
+.store-body { display:flex; height:100%; }
+.store-sidebar { width:200px; background:rgba(20,20,30,.8); padding:16px 0; border-left:1px solid rgba(255,255,255,.07); flex-shrink:0; overflow-y:auto; }
+.store-sidebar h3 { padding:8px 16px; font-size:11px; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1px; }
+.store-cat { padding:8px 16px; font-size:13px; color:rgba(255,255,255,.7); cursor:pointer; border-radius:8px; margin:0 8px; }
+.store-cat:hover,.store-cat.active { background:rgba(120,100,255,.25); color:#fff; }
+.store-main { flex:1; overflow-y:auto; padding:20px; }
+.store-banner { background:linear-gradient(135deg,#6c63ff,#a855f7); border-radius:16px; padding:24px; margin-bottom:20px; color:#fff; }
+.store-banner h2 { font-size:22px; font-weight:700; margin-bottom:6px; }
+.store-banner p { font-size:13px; opacity:.85; }
+.store-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; }
+.store-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; cursor:pointer; transition:background .2s; }
+.store-card:hover { background:rgba(255,255,255,.09); }
+.store-card .sc-icon { width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:10px; }
+.store-card .sc-name { font-size:13px; font-weight:600; color:#fff; margin-bottom:4px; }
+.store-card .sc-desc { font-size:11px; color:rgba(255,255,255,.5); margin-bottom:10px; line-height:1.4; }
+.store-card .sc-btn { width:100%; background:rgba(120,100,255,.4); border:none; border-radius:8px; color:#fff; padding:6px; font-size:12px; cursor:pointer; transition:background .2s; }
+.store-card .sc-btn:hover { background:rgba(120,100,255,.6); }
+.store-card .sc-btn.installed { background:rgba(255,255,255,.1); color:rgba(255,255,255,.5); }
+
+/* SPOTLIGHT */
+#spotlight-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,.4); backdrop-filter:blur(8px); align-items:flex-start; justify-content:center; padding-top:15vh; }
 #spotlight-overlay.show { display:flex; }
-#spotlight-box {
-  background:rgba(35,35,50,0.92); border:1px solid rgba(255,255,255,0.15);
-  border-radius:16px; width:560px; overflow:hidden;
-  box-shadow:0 32px 80px rgba(0,0,0,0.7);
-}
-#spotlight-input {
-  width:100%; padding:16px 20px; background:transparent; border:none;
-  color:#fff; font-size:20px; outline:none;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-.spot-result {
-  padding:10px 20px; color:rgba(255,255,255,0.8); font-size:14px;
-  cursor:pointer; display:flex; align-items:center; gap:12px;
-}
-.spot-result:hover { background:rgba(120,100,255,0.25); }
-.spot-result .spot-icon { font-size:22px; }
+#spotlight-box { background:rgba(35,35,50,.95); border:1px solid rgba(255,255,255,.15); border-radius:16px; width:560px; overflow:hidden; box-shadow:0 32px 80px rgba(0,0,0,.7); }
+#spotlight-input { width:100%; padding:16px 20px; background:transparent; border:none; color:#fff; font-size:20px; outline:none; border-bottom:1px solid rgba(255,255,255,.08); user-select:text; }
+.spot-result { padding:10px 20px; color:rgba(255,255,255,.8); font-size:14px; cursor:pointer; display:flex; align-items:center; gap:12px; }
+.spot-result:hover { background:rgba(120,100,255,.25); }
 
-/* ── NOTIFICATION ── */
-.notif {
-  position:fixed; top:38px; right:12px; z-index:3000;
-  background:rgba(35,35,50,0.92); border:1px solid rgba(255,255,255,0.12);
-  border-radius:14px; padding:14px 16px; min-width:280px; max-width:320px;
-  box-shadow:0 16px 48px rgba(0,0,0,0.6); color:#fff;
-  animation:slideIn 0.3s ease; backdrop-filter:blur(20px);
-}
+/* NOTIF */
+.notif { position:fixed; top:38px; right:12px; z-index:3000; background:rgba(35,35,50,.95); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:14px 16px; min-width:280px; max-width:320px; box-shadow:0 16px 48px rgba(0,0,0,.6); color:#fff; animation:slideIn .3s ease; backdrop-filter:blur(20px); }
 @keyframes slideIn { from{transform:translateX(120%);opacity:0} to{transform:translateX(0);opacity:1} }
 .notif-title { font-size:13px; font-weight:600; margin-bottom:4px; }
-.notif-body { font-size:12px; opacity:0.75; }
+.notif-body { font-size:12px; opacity:.75; }
 </style>
 </head>
 <body>
-
-<!-- Wallpaper -->
 <div id="wallpaper"></div>
 
-<!-- Menu Bar -->
+<!-- MENU BAR -->
 <div id="menubar">
   <div class="left">
-    <span class="apple-logo" onclick="toggleSpotlight()">󰀻</span>
-    <span class="menu-item" style="font-weight:600" id="active-app-name">BirgsOS</span>
-    <span class="menu-item">קובץ</span>
-    <span class="menu-item">עריכה</span>
-    <span class="menu-item">תצוגה</span>
-    <span class="menu-item">עזרה</span>
+    <span class="apple-logo" onclick="toggleSpotlight()">🍎</span>
+    <span class="menu-item" style="font-weight:700">BirgsOS</span>
+    <span class="menu-item" onclick="openApp('store')">חנות</span>
+    <span class="menu-item" onclick="openApp('browser')">דפדפן</span>
   </div>
   <div class="right">
-    <span>🔋 100%</span>
-    <span>📶</span>
+    <span>🔋 100%</span><span>📶</span>
     <span id="clock"></span>
   </div>
 </div>
 
-<!-- Desktop Icons -->
+<!-- DESKTOP ICONS -->
 <div id="desktop">
+  <div class="desktop-icon" ondblclick="openApp('store')">
+    <div class="icon-img" style="background:linear-gradient(135deg,#1a1a2e,#4c1d95)">🏪</div>
+    <span>חנות</span>
+  </div>
   <div class="desktop-icon" ondblclick="openApp('budget')">
     <div class="icon-img" style="background:linear-gradient(135deg,#f97316,#fb923c)">💰</div>
     <span>הכסף שלי</span>
@@ -220,124 +137,143 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
     <div class="icon-img" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">🤖</div>
     <span>AI Social</span>
   </div>
-  <div class="desktop-icon" ondblclick="openApp('gesture')">
-    <div class="icon-img" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">✊</div>
-    <span>GestureShare</span>
+  <div class="desktop-icon" ondblclick="openApp('ping')">
+    <div class="icon-img" style="background:linear-gradient(135deg,#d63384,#9333ea)">💸</div>
+    <span>פינג</span>
   </div>
 </div>
 
-<!-- Windows -->
+<!-- ══ WINDOWS ══ -->
+
+<!-- Budget -->
 <div class="window" id="win-budget" style="top:60px;left:120px;width:800px;height:580px">
   <div class="titlebar" onmousedown="startDrag(event,'win-budget')">
-    <div class="traffic-lights">
-      <div class="tl close" onclick="closeWin('win-budget','budget')"></div>
-      <div class="tl min" onclick="minWin('win-budget')"></div>
-      <div class="tl max" onclick="maxWin('win-budget')"></div>
-    </div>
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-budget','budget')"></div><div class="tl min" onclick="minWin('win-budget')"></div><div class="tl max" onclick="maxWin('win-budget')"></div></div>
     <div class="win-title">💰 הכסף שלי</div>
   </div>
-  <div class="win-body">
-    <iframe src="https://davidyosef2102014-netizen.github.io/birgsol-budget/" id="iframe-budget"></iframe>
-  </div>
+  <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/birgsol-budget/"></iframe></div>
 </div>
 
+<!-- BIRGSOL AI -->
 <div class="window" id="win-birgsol" style="top:60px;left:200px;width:420px;height:680px">
   <div class="titlebar" onmousedown="startDrag(event,'win-birgsol')">
-    <div class="traffic-lights">
-      <div class="tl close" onclick="closeWin('win-birgsol','birgsol')"></div>
-      <div class="tl min" onclick="minWin('win-birgsol')"></div>
-      <div class="tl max" onclick="maxWin('win-birgsol')"></div>
-    </div>
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-birgsol','birgsol')"></div><div class="tl min" onclick="minWin('win-birgsol')"></div><div class="tl max" onclick="maxWin('win-birgsol')"></div></div>
     <div class="win-title">💬 BIRGSOL AI</div>
   </div>
-  <div class="win-body">
-    <iframe src="https://davidyosef2102014-netizen.github.io/watsapp/birgsolai.html"></iframe>
-  </div>
+  <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/watsapp/birgsolai.html"></iframe></div>
 </div>
 
+<!-- Social -->
 <div class="window" id="win-social" style="top:60px;left:160px;width:900px;height:600px">
   <div class="titlebar" onmousedown="startDrag(event,'win-social')">
-    <div class="traffic-lights">
-      <div class="tl close" onclick="closeWin('win-social','social')"></div>
-      <div class="tl min" onclick="minWin('win-social')"></div>
-      <div class="tl max" onclick="maxWin('win-social')"></div>
-    </div>
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-social','social')"></div><div class="tl min" onclick="minWin('win-social')"></div><div class="tl max" onclick="maxWin('win-social')"></div></div>
     <div class="win-title">🤖 AI Social</div>
   </div>
-  <div class="win-body">
-    <iframe src="https://davidyosef2102014-netizen.github.io/birgsol-social/"></iframe>
-  </div>
+  <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/birgsol-social/"></iframe></div>
 </div>
 
+<!-- Gesture -->
 <div class="window" id="win-gesture" style="top:60px;left:200px;width:700px;height:520px">
   <div class="titlebar" onmousedown="startDrag(event,'win-gesture')">
-    <div class="traffic-lights">
-      <div class="tl close" onclick="closeWin('win-gesture','gesture')"></div>
-      <div class="tl min" onclick="minWin('win-gesture')"></div>
-      <div class="tl max" onclick="maxWin('win-gesture')"></div>
-    </div>
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-gesture','gesture')"></div><div class="tl min" onclick="minWin('win-gesture')"></div><div class="tl max" onclick="maxWin('win-gesture')"></div></div>
     <div class="win-title">✊ GestureShare</div>
   </div>
-  <div class="win-body">
-    <iframe src="https://github.com/davidyosef2102014-netizen/gesture-share"></iframe>
-  </div>
+  <div class="win-body"><iframe src="https://github.com/davidyosef2102014-netizen/gesture-share"></iframe></div>
 </div>
 
-<div class="window" id="win-browser" style="top:60px;left:100px;width:960px;height:620px">
+<!-- Ping -->
+<div class="window" id="win-ping" style="top:60px;left:300px;width:400px;height:700px">
+  <div class="titlebar" onmousedown="startDrag(event,'win-ping')">
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-ping','ping')"></div><div class="tl min" onclick="minWin('win-ping')"></div><div class="tl max" onclick="maxWin('win-ping')"></div></div>
+    <div class="win-title">💸 פינג</div>
+  </div>
+  <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/ping-pay/"></iframe></div>
+</div>
+
+<!-- Browser -->
+<div class="window" id="win-browser" style="top:60px;left:80px;width:1000px;height:640px">
   <div class="titlebar" onmousedown="startDrag(event,'win-browser')">
-    <div class="traffic-lights">
-      <div class="tl close" onclick="closeWin('win-browser','browser')"></div>
-      <div class="tl min" onclick="minWin('win-browser')"></div>
-      <div class="tl max" onclick="maxWin('win-browser')"></div>
-    </div>
-    <div class="win-title">🌐 דפדפן</div>
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-browser','browser')"></div><div class="tl min" onclick="minWin('win-browser')"></div><div class="tl max" onclick="maxWin('win-browser')"></div></div>
+    <div class="win-title" id="browser-win-title">🌐 דפדפן BirgsOS</div>
   </div>
   <div class="browser-bar">
-    <button onclick="browserBack()">‹</button>
-    <button onclick="browserForward()">›</button>
-    <button onclick="browserRefresh()">↻</button>
-    <input type="text" id="browser-url" placeholder="חפש או הכנס כתובת..." onkeydown="if(event.key==='Enter')browserGo()">
-    <button onclick="browserGo()">↵</button>
+    <button onclick="browserBack()" title="אחורה">‹</button>
+    <button onclick="browserForward()" title="קדימה">›</button>
+    <button onclick="browserRefresh()" title="רענן">↻</button>
+    <input type="text" id="browser-url" placeholder="🔍 חפש בגוגל או הכנס כתובת..." onkeydown="if(event.key==='Enter')browserGo()" onclick="this.select()">
+    <button onclick="browserGo()">ᐳ</button>
+    <button id="browser-new-tab" onclick="openCurrentInTab()" title="פתח בטאב חדש">🔗 פתח</button>
   </div>
-  <div class="win-body">
-    <iframe id="browser-iframe" src="https://davidyosef2102014-netizen.github.io"></iframe>
+  <div class="win-body" id="browser-body">
+    <div class="browser-fallback" id="browser-fallback">
+      <div style="font-size:48px">🌐</div>
+      <div style="font-size:18px;font-weight:700">האתר לא נטען בחלון</div>
+      <div style="font-size:13px;opacity:.7;margin-top:4px">חלק מהאתרים חוסמים הטמעה</div>
+      <button onclick="openCurrentInTab()">פתח בטאב חדש ↗</button>
+    </div>
+    <iframe id="browser-iframe" src="about:blank" onload="onBrowserLoad()" onerror="showBrowserFallback()"></iframe>
   </div>
 </div>
 
-<!-- Dock -->
+<!-- App Store -->
+<div class="window" id="win-store" style="top:50px;left:100px;width:860px;height:600px">
+  <div class="titlebar" onmousedown="startDrag(event,'win-store')">
+    <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-store','store')"></div><div class="tl min" onclick="minWin('win-store')"></div><div class="tl max" onclick="maxWin('win-store')"></div></div>
+    <div class="win-title">🏪 חנות BirgsOS</div>
+  </div>
+  <div class="win-body" style="overflow:hidden">
+    <div class="store-body">
+      <div class="store-sidebar">
+        <h3>קטגוריות</h3>
+        <div class="store-cat active" onclick="showCat('birgsol',this)">🌟 בירגסול</div>
+        <div class="store-cat" onclick="showCat('google',this)">🔍 גוגל</div>
+        <div class="store-cat" onclick="showCat('tools',this)">🛠️ כלים</div>
+        <div class="store-cat" onclick="showCat('social',this)">💬 תקשורת</div>
+      </div>
+      <div class="store-main" id="store-main"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCK -->
 <div id="dock">
   <div class="dock-item" id="dock-budget" onclick="openApp('budget')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#f97316,#fb923c)">💰</div>
-    <div class="dock-label">הכסף שלי</div>
-    <div class="dock-dot"></div>
+    <div class="dock-label">הכסף שלי</div><div class="dock-dot"></div>
   </div>
   <div class="dock-item" id="dock-birgsol" onclick="openApp('birgsol')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">💬</div>
-    <div class="dock-label">BIRGSOL AI</div>
-    <div class="dock-dot"></div>
+    <div class="dock-label">BIRGSOL AI</div><div class="dock-dot"></div>
   </div>
   <div class="dock-item" id="dock-social" onclick="openApp('social')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">🤖</div>
-    <div class="dock-label">AI Social</div>
-    <div class="dock-dot"></div>
+    <div class="dock-label">AI Social</div><div class="dock-dot"></div>
+  </div>
+  <div class="dock-item" id="dock-ping" onclick="openApp('ping')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#d63384,#9333ea)">💸</div>
+    <div class="dock-label">פינג</div><div class="dock-dot"></div>
   </div>
   <div class="dock-item" id="dock-gesture" onclick="openApp('gesture')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">✊</div>
-    <div class="dock-label">GestureShare</div>
-    <div class="dock-dot"></div>
+    <div class="dock-label">GestureShare</div><div class="dock-dot"></div>
   </div>
   <div class="dock-sep"></div>
   <div class="dock-item" id="dock-browser" onclick="openApp('browser')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">🌐</div>
-    <div class="dock-label">דפדפן</div>
-    <div class="dock-dot"></div>
+    <div class="dock-label">דפדפן</div><div class="dock-dot"></div>
   </div>
+  <div class="dock-item" id="dock-store" onclick="openApp('store')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#1a1a2e,#4c1d95)">🏪</div>
+    <div class="dock-label">חנות</div><div class="dock-dot"></div>
+  </div>
+  <div class="dock-sep"></div>
+  <div id="dock-installed"></div>
 </div>
 
-<!-- Spotlight -->
+<!-- SPOTLIGHT -->
 <div id="spotlight-overlay" onclick="if(event.target===this)toggleSpotlight()">
   <div id="spotlight-box">
-    <input id="spotlight-input" placeholder="🔍  חיפוש..." oninput="spotSearch(this.value)" onkeydown="spotKey(event)" autofocus>
+    <input id="spotlight-input" placeholder="🔍  חפש אפליקציה, אתר..." oninput="spotSearch(this.value)" onkeydown="spotKey(event)">
     <div id="spot-results"></div>
   </div>
 </div>
@@ -345,134 +281,256 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
 <script>
 // ── CLOCK ──
 function updateClock(){
-  const now=new Date();
-  const d=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'][now.getDay()];
-  const m=['ינו','פבר','מרץ','אפר','מאי','יוני','יולי','אוג','ספט','אוק','נוב','דצ'][now.getMonth()];
-  document.getElementById('clock').textContent=`${d} ${now.getDate()} ${m}  ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const n=new Date();
+  const d=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'][n.getDay()];
+  const m=['ינו','פבר','מרץ','אפר','מאי','יוני','יולי','אוג','ספט','אוק','נוב','דצ'][n.getMonth()];
+  document.getElementById('clock').textContent=`${d} ${n.getDate()} ${m}  ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;
 }
 updateClock(); setInterval(updateClock,1000);
 
-// ── APPS CONFIG ──
+// ── APPS ──
 const apps={
-  budget:  {win:'win-budget',  dock:'dock-budget'},
-  birgsol: {win:'win-birgsol', dock:'dock-birgsol'},
-  social:  {win:'win-social',  dock:'dock-social'},
-  gesture: {win:'win-gesture', dock:'dock-gesture'},
-  browser: {win:'win-browser', dock:'dock-browser'},
+  budget:{win:'win-budget',dock:'dock-budget'},
+  birgsol:{win:'win-birgsol',dock:'dock-birgsol'},
+  social:{win:'win-social',dock:'dock-social'},
+  gesture:{win:'win-gesture',dock:'dock-gesture'},
+  browser:{win:'win-browser',dock:'dock-browser'},
+  store:{win:'win-store',dock:'dock-store'},
+  ping:{win:'win-ping',dock:'dock-ping'},
 };
 
 function openApp(id){
   const a=apps[id]; if(!a) return;
   const win=document.getElementById(a.win);
   const dock=document.getElementById(a.dock);
+  if(!win) return;
   win.classList.add('visible');
-  dock.classList.add('running');
+  dock?.classList.add('running');
   bringToFront(win);
-  // bounce animation
-  const icon=dock.querySelector('.dock-icon');
-  icon.style.animation='bounce 0.5s ease';
-  setTimeout(()=>icon.style.animation='',500);
+  const icon=dock?.querySelector('.dock-icon');
+  if(icon){icon.style.animation='bounce 0.5s ease';setTimeout(()=>icon.style.animation='',500);}
 }
 
-function closeWin(winId, appId){
+function closeWin(winId,appId){
   const win=document.getElementById(winId);
-  win.style.animation='windowClose 0.2s ease forwards';
-  setTimeout(()=>{
-    win.classList.remove('visible');
-    win.style.animation='';
-    if(appId) document.getElementById(apps[appId]?.dock)?.classList.remove('running');
+  win.style.animation='windowClose .2s ease forwards';
+  setTimeout(()=>{win.classList.remove('visible');win.style.animation='';
+    if(appId)document.getElementById(apps[appId]?.dock)?.classList.remove('running');
   },180);
 }
-
-function minWin(winId){
-  const win=document.getElementById(winId);
-  win.style.animation='windowClose 0.2s ease forwards';
-  setTimeout(()=>{ win.classList.remove('visible'); win.style.animation=''; },180);
-}
-
+function minWin(winId){ closeWin(winId,null); }
 let maximized={};
 function maxWin(winId){
   const win=document.getElementById(winId);
-  if(maximized[winId]){
-    Object.assign(win.style, maximized[winId]);
-    delete maximized[winId];
-  } else {
-    maximized[winId]={ top:win.style.top, left:win.style.left, width:win.style.width, height:win.style.height };
-    Object.assign(win.style,{ top:'28px', left:'0', width:'100vw', height:'calc(100vh - 108px)' });
-  }
+  if(maximized[winId]){Object.assign(win.style,maximized[winId]);delete maximized[winId];}
+  else{maximized[winId]={top:win.style.top,left:win.style.left,width:win.style.width,height:win.style.height};
+    Object.assign(win.style,{top:'28px',left:'0',width:'100vw',height:'calc(100vh - 108px)'});}
 }
 
 // ── DRAG ──
 let drag=null;
 function startDrag(e,winId){
-  const win=document.getElementById(winId);
-  bringToFront(win);
+  const win=document.getElementById(winId); bringToFront(win);
   const ox=e.clientX-win.offsetLeft, oy=e.clientY-win.offsetTop;
   drag={win,ox,oy};
 }
-document.addEventListener('mousemove',e=>{
-  if(!drag) return;
-  drag.win.style.left=(e.clientX-drag.ox)+'px';
-  drag.win.style.top =Math.max(28,e.clientY-drag.oy)+'px';
-});
+document.addEventListener('mousemove',e=>{if(!drag)return;drag.win.style.left=(e.clientX-drag.ox)+'px';drag.win.style.top=Math.max(28,e.clientY-drag.oy)+'px';});
 document.addEventListener('mouseup',()=>drag=null);
-
-function bringToFront(win){
-  document.querySelectorAll('.window').forEach(w=>w.classList.remove('active'));
-  win.classList.add('active');
-}
+function bringToFront(win){document.querySelectorAll('.window').forEach(w=>w.classList.remove('active'));win.classList.add('active');}
 
 // ── BROWSER ──
+let currentBrowserUrl='';
 function browserGo(){
   let url=document.getElementById('browser-url').value.trim();
   if(!url) return;
-  if(!url.startsWith('http')) url='https://'+url;
-  document.getElementById('browser-iframe').src=url;
+  // if it's a search query (no dot or space), search Google
+  if(!url.startsWith('http') && !url.includes('.') || url.includes(' ')){
+    url='https://www.google.com/search?q='+encodeURIComponent(url);
+  } else if(!url.startsWith('http')){
+    url='https://'+url;
+  }
+  currentBrowserUrl=url;
+  document.getElementById('browser-url').value=url;
+  document.getElementById('browser-win-title').textContent='🌐 '+url.replace('https://','').split('/')[0];
+  const iframe=document.getElementById('browser-iframe');
+  const fallback=document.getElementById('browser-fallback');
+  fallback.style.display='none';
+  iframe.style.display='block';
+  iframe.src=url;
+  // After 4s if still about:blank-like or blocked, show fallback
+  setTimeout(()=>{
+    try{if(iframe.contentDocument?.location?.href==='about:blank'||!iframe.contentDocument)showBrowserFallback();}
+    catch(e){showBrowserFallback();}
+  },4000);
 }
-function browserBack(){ document.getElementById('browser-iframe').contentWindow.history.back(); }
-function browserForward(){ document.getElementById('browser-iframe').contentWindow.history.forward(); }
-function browserRefresh(){ document.getElementById('browser-iframe').contentWindow.location.reload(); }
+function showBrowserFallback(){
+  document.getElementById('browser-iframe').style.display='none';
+  document.getElementById('browser-fallback').style.display='flex';
+}
+function onBrowserLoad(){
+  try{
+    const loc=document.getElementById('browser-iframe').contentWindow?.location?.href;
+    if(loc&&loc!=='about:blank'){
+      document.getElementById('browser-url').value=loc;
+      document.getElementById('browser-fallback').style.display='none';
+      document.getElementById('browser-iframe').style.display='block';
+    }
+  }catch(e){showBrowserFallback();}
+}
+function openCurrentInTab(){ window.open(currentBrowserUrl||document.getElementById('browser-url').value,'_blank'); }
+function browserBack(){try{document.getElementById('browser-iframe').contentWindow.history.back();}catch(e){}}
+function browserForward(){try{document.getElementById('browser-iframe').contentWindow.history.forward();}catch(e){}}
+function browserRefresh(){
+  const iframe=document.getElementById('browser-iframe');
+  document.getElementById('browser-fallback').style.display='none';
+  iframe.style.display='block';
+  try{iframe.contentWindow.location.reload();}catch(e){iframe.src=iframe.src;}
+}
+
+// ── APP STORE ──
+const STORE_INSTALLED = JSON.parse(localStorage.getItem('biros_installed')||'[]');
+const storeApps = {
+  birgsol:[
+    {id:'budget',icon:'💰',bg:'linear-gradient(135deg,#f97316,#fb923c)',name:'הכסף שלי',desc:'ניהול תקציב וחיסכון',internal:true},
+    {id:'birgsol',icon:'💬',bg:'linear-gradient(135deg,#22c55e,#16a34a)',name:'BIRGSOL AI',desc:'שיחות עם AI',internal:true},
+    {id:'social',icon:'🤖',bg:'linear-gradient(135deg,#3b82f6,#1d4ed8)',name:'AI Social',desc:'רשת חברתית AI',internal:true},
+    {id:'ping',icon:'💸',bg:'linear-gradient(135deg,#d63384,#9333ea)',name:'פינג',desc:'שלח כסף כמו Bit',internal:true},
+    {id:'gesture',icon:'✊',bg:'linear-gradient(135deg,#8b5cf6,#6d28d9)',name:'GestureShare',desc:'שתף תמונות עם יד',internal:true},
+  ],
+  google:[
+    {id:'gmail',icon:'📧',bg:'#EA4335',name:'Gmail',desc:'אימייל של גוגל',url:'https://mail.google.com'},
+    {id:'gdocs',icon:'📄',bg:'#4285F4',name:'Google Docs',desc:'עריכת מסמכים',url:'https://docs.google.com'},
+    {id:'gdrive',icon:'🗂️',bg:'#FBBC05',name:'Google Drive',desc:'אחסון בענן',url:'https://drive.google.com'},
+    {id:'gmaps',icon:'🗺️',bg:'#34A853',name:'Google Maps',desc:'מפות וניווט',url:'https://maps.google.com'},
+    {id:'youtube',icon:'▶️',bg:'#FF0000',name:'YouTube',desc:'סרטונים',url:'https://youtube.com'},
+    {id:'gcal',icon:'📅',bg:'#4285F4',name:'Google Calendar',desc:'לוח שנה',url:'https://calendar.google.com'},
+  ],
+  tools:[
+    {id:'wikipedia',icon:'📖',bg:'#333',name:'ויקיפדיה',desc:'אנציקלופדיה חופשית',url:'https://he.wikipedia.org'},
+    {id:'weather',icon:'🌤️',bg:'linear-gradient(135deg,#0ea5e9,#38bdf8)',name:'מזג אוויר',desc:'תחזית מזג אוויר',url:'https://weather.com'},
+    {id:'translate',icon:'🌍',bg:'linear-gradient(135deg,#4285F4,#34A853)',name:'תרגום גוגל',desc:'תרגום בין שפות',url:'https://translate.google.com'},
+    {id:'news',icon:'📰',bg:'linear-gradient(135deg,#1a1a2e,#16213e)',name:'חדשות',desc:'חדשות עדכניות',url:'https://news.google.com'},
+  ],
+  social:[
+    {id:'whatsapp',icon:'💚',bg:'#25D366',name:'WhatsApp Web',desc:'הודעות',url:'https://web.whatsapp.com'},
+    {id:'telegram',icon:'✈️',bg:'#2AABEE',name:'Telegram',desc:'מסרים מהירים',url:'https://web.telegram.org'},
+    {id:'twitter',icon:'🐦',bg:'#1DA1F2',name:'Twitter/X',desc:'רשת חברתית',url:'https://x.com'},
+  ]
+};
+
+function showCat(cat, el){
+  document.querySelectorAll('.store-cat').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const main=document.getElementById('store-main');
+  const items=storeApps[cat]||[];
+  const isBirgsol=cat==='birgsol';
+  main.innerHTML=`
+    <div class="store-banner">
+      <h2>${isBirgsol?'🌟 אפליקציות בירגסול':'🔍 '+(cat==='google'?'גוגל':cat==='tools'?'כלים':'תקשורת')}</h2>
+      <p>${isBirgsol?'כל האפליקציות שבנינו יחד':'לחץ הורד כדי להוסיף לדוק'}</p>
+    </div>
+    <div class="store-grid">
+      ${items.map(app=>{
+        const installed=STORE_INSTALLED.includes(app.id)||app.internal;
+        return `<div class="store-card">
+          <div class="sc-icon" style="background:${app.bg}">${app.icon}</div>
+          <div class="sc-name">${app.name}</div>
+          <div class="sc-desc">${app.desc}</div>
+          <button class="sc-btn ${installed?'installed':''}" onclick="installApp(${JSON.stringify(app).replace(/"/g,'&quot;')})">
+            ${installed?'✓ מותקן':'+ הורד'}
+          </button>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function installApp(app){
+  if(app.internal){ openApp(app.id); return; }
+  if(!STORE_INSTALLED.includes(app.id)){
+    STORE_INSTALLED.push(app.id);
+    localStorage.setItem('biros_installed',JSON.stringify(STORE_INSTALLED));
+  }
+  // add to dock
+  addToDock(app);
+  showNotif(`${app.name} הותקן! 🎉`,`לחץ על האייקון בדוק`);
+  // refresh store
+  document.querySelector('.store-cat.active')?.click();
+}
+
+const dockExtraApps={};
+function addToDock(app){
+  if(dockExtraApps[app.id]) return;
+  dockExtraApps[app.id]=app;
+  const di=document.getElementById('dock-installed');
+  const item=document.createElement('div');
+  item.className='dock-item'; item.id='dock-extra-'+app.id;
+  item.innerHTML=`<div class="dock-icon" style="background:${app.bg};font-size:24px">${app.icon}</div><div class="dock-label">${app.name}</div><div class="dock-dot"></div>`;
+  item.onclick=()=>openBrowserApp(app);
+  di.appendChild(item);
+}
+
+function openBrowserApp(app){
+  openApp('browser');
+  setTimeout(()=>{
+    document.getElementById('browser-url').value=app.url;
+    browserGo();
+  },200);
+}
+
+// load previously installed
+function loadInstalledApps(){
+  STORE_INSTALLED.forEach(id=>{
+    for(const cat of Object.values(storeApps)){
+      const a=cat.find(x=>x.id===id&&!x.internal);
+      if(a){addToDock(a);break;}
+    }
+  });
+}
 
 // ── SPOTLIGHT ──
 const spotApps=[
-  {icon:'💰',name:'הכסף שלי',id:'budget'},
-  {icon:'💬',name:'BIRGSOL AI',id:'birgsol'},
-  {icon:'🤖',name:'AI Social',id:'social'},
-  {icon:'✊',name:'GestureShare',id:'gesture'},
-  {icon:'🌐',name:'דפדפן',id:'browser'},
+  {icon:'💰',name:'הכסף שלי',id:'budget'},{icon:'💬',name:'BIRGSOL AI',id:'birgsol'},
+  {icon:'🤖',name:'AI Social',id:'social'},{icon:'✊',name:'GestureShare',id:'gesture'},
+  {icon:'🌐',name:'דפדפן',id:'browser'},{icon:'🏪',name:'חנות',id:'store'},
+  {icon:'💸',name:'פינג',id:'ping'},
 ];
 function toggleSpotlight(){
   const o=document.getElementById('spotlight-overlay');
-  const showing=o.classList.toggle('show');
-  if(showing){ document.getElementById('spotlight-input').value=''; spotSearch(''); document.getElementById('spotlight-input').focus(); }
+  const show=o.classList.toggle('show');
+  if(show){document.getElementById('spotlight-input').value='';spotSearch('');document.getElementById('spotlight-input').focus();}
 }
 function spotSearch(q){
   const r=document.getElementById('spot-results');
-  const filtered=q?spotApps.filter(a=>a.name.toLowerCase().includes(q.toLowerCase())||a.id.includes(q)):spotApps;
-  r.innerHTML=filtered.map(a=>`<div class="spot-result" onclick="openApp('${a.id}');toggleSpotlight()"><span class="spot-icon">${a.icon}</span>${a.name}</div>`).join('');
+  const all=[...spotApps,...Object.values(dockExtraApps).map(a=>({icon:a.icon,name:a.name,id:'_ext_'+a.id,app:a}))];
+  const filtered=q?all.filter(a=>a.name.includes(q)):all;
+  r.innerHTML=filtered.map(a=>`<div class="spot-result" onclick="${a.id.startsWith('_ext_')?`openBrowserApp(dockExtraApps['${a.app?.id}'])`:`openApp('${a.id}')`};toggleSpotlight()"><span style="font-size:22px">${a.icon}</span>${a.name}</div>`).join('');
 }
-function spotKey(e){ if(e.key==='Escape') toggleSpotlight(); }
-document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key===' '){ e.preventDefault(); toggleSpotlight(); } });
+function spotKey(e){
+  if(e.key==='Escape')toggleSpotlight();
+  if(e.key==='Enter'){
+    const q=document.getElementById('spotlight-input').value;
+    if(q){openApp('browser');setTimeout(()=>{document.getElementById('browser-url').value=q;browserGo();},200);toggleSpotlight();}
+  }
+}
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key===' '){e.preventDefault();toggleSpotlight();}});
 
-// ── NOTIFICATION ──
+// ── NOTIF ──
 function showNotif(title,body){
-  const n=document.createElement('div');
-  n.className='notif';
+  const n=document.createElement('div'); n.className='notif';
   n.innerHTML=`<div class="notif-title">${title}</div><div class="notif-body">${body}</div>`;
   document.body.appendChild(n);
-  setTimeout(()=>{ n.style.animation='slideIn 0.3s ease reverse'; setTimeout(()=>n.remove(),300); },4000);
+  setTimeout(()=>{n.style.animation='slideIn .3s ease reverse';setTimeout(()=>n.remove(),300);},4000);
 }
 
 // ── CSS EXTRA ──
-const style=document.createElement('style');
-style.textContent=`
-@keyframes windowClose { to{opacity:0;transform:scale(0.85)} }
-@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
-`;
-document.head.appendChild(style);
+const st=document.createElement('style');
+st.textContent='@keyframes windowClose{to{opacity:0;transform:scale(.85)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}';
+document.head.appendChild(st);
 
-// Welcome
-setTimeout(()=>showNotif('ברוך הבא ל-BirgsOS 👋','לחץ על אפליקציה בדוק כדי לפתוח אותה'),1000);
+// ── INIT ──
+showCat('birgsol',document.querySelector('.store-cat'));
+loadInstalledApps();
+setTimeout(()=>showNotif('ברוך הבא ל-BirgsOS 👋','פתח את החנות כדי להוסיף עוד אפליקציות'),1200);
 </script>
 </body>
 </html>
