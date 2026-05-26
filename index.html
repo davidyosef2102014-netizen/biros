@@ -48,10 +48,15 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
 
 .titlebar { height:40px; display:flex; align-items:center; padding:0 14px; background:rgba(40,40,52,.8); border-bottom:1px solid rgba(255,255,255,.07); cursor:move; gap:8px; flex-shrink:0; }
+.win-close-btn { margin-right:auto; background:none; border:none; color:rgba(255,255,255,.35); font-size:18px; cursor:pointer; padding:2px 6px; border-radius:6px; line-height:1; transition:color .2s,background .2s; pointer-events:all; }
+.win-close-btn:hover { color:#ff5f57; background:rgba(255,95,87,.15); }
 .traffic-lights { display:flex; gap:7px; }
-.tl { width:13px; height:13px; border-radius:50%; cursor:pointer; transition:filter .2s; }
+.tl { width:15px; height:15px; border-radius:50%; cursor:pointer; transition:filter .2s; display:flex; align-items:center; justify-content:center; font-size:9px; color:transparent; font-weight:700; }
+.traffic-lights:hover .tl { color:rgba(0,0,0,.6); }
 .tl.close { background:#ff5f57; } .tl.min { background:#febc2e; } .tl.max { background:#28c840; }
-.win-title { flex:1; text-align:center; color:rgba(255,255,255,.7); font-size:13px; font-weight:500; }
+.tl.close::before { content:'✕'; } .tl.min::before { content:'−'; } .tl.max::before { content:'⤢'; }
+.tl:hover { filter:brightness(1.15); transform:scale(1.1); }
+.win-title { flex:1; text-align:center; color:rgba(255,255,255,.9); font-size:13px; font-weight:600; }
 .win-body { flex:1; overflow:hidden; position:relative; }
 .win-body iframe { width:100%; height:100%; border:none; background:#fff; }
 
@@ -150,6 +155,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-budget')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-budget','budget')"></div><div class="tl min" onclick="minWin('win-budget')"></div><div class="tl max" onclick="maxWin('win-budget')"></div></div>
     <div class="win-title">💰 הכסף שלי</div>
+    <button class="win-close-btn" onclick="closeWin('win-budget','budget')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/birgsol-budget/"></iframe></div>
 </div>
@@ -159,6 +165,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-birgsol')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-birgsol','birgsol')"></div><div class="tl min" onclick="minWin('win-birgsol')"></div><div class="tl max" onclick="maxWin('win-birgsol')"></div></div>
     <div class="win-title">💬 BIRGSOL AI</div>
+    <button class="win-close-btn" onclick="closeWin('win-birgsol','birgsol')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/watsapp/birgsolai.html"></iframe></div>
 </div>
@@ -168,6 +175,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-social')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-social','social')"></div><div class="tl min" onclick="minWin('win-social')"></div><div class="tl max" onclick="maxWin('win-social')"></div></div>
     <div class="win-title">🤖 AI Social</div>
+    <button class="win-close-btn" onclick="closeWin('win-social','social')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/birgsol-social/"></iframe></div>
 </div>
@@ -177,6 +185,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-gesture')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-gesture','gesture')"></div><div class="tl min" onclick="minWin('win-gesture')"></div><div class="tl max" onclick="maxWin('win-gesture')"></div></div>
     <div class="win-title">✊ GestureShare</div>
+    <button class="win-close-btn" onclick="closeWin('win-gesture','gesture')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="win-body"><iframe src="https://github.com/davidyosef2102014-netizen/gesture-share"></iframe></div>
 </div>
@@ -186,6 +195,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-ping')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-ping','ping')"></div><div class="tl min" onclick="minWin('win-ping')"></div><div class="tl max" onclick="maxWin('win-ping')"></div></div>
     <div class="win-title">💸 פינג</div>
+    <button class="win-close-btn" onclick="closeWin('win-ping','ping')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="win-body"><iframe src="https://davidyosef2102014-netizen.github.io/ping-pay/"></iframe></div>
 </div>
@@ -195,6 +205,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-browser')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-browser','browser')"></div><div class="tl min" onclick="minWin('win-browser')"></div><div class="tl max" onclick="maxWin('win-browser')"></div></div>
     <div class="win-title" id="browser-win-title">🌐 דפדפן BirgsOS</div>
+    <button class="win-close-btn" onclick="closeWin('win-browser','browser')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="browser-bar">
     <button onclick="browserBack()" title="אחורה">‹</button>
@@ -220,6 +231,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="titlebar" onmousedown="startDrag(event,'win-store')">
     <div class="traffic-lights"><div class="tl close" onclick="closeWin('win-store','store')"></div><div class="tl min" onclick="minWin('win-store')"></div><div class="tl max" onclick="maxWin('win-store')"></div></div>
     <div class="win-title">🏪 חנות BirgsOS</div>
+    <button class="win-close-btn" onclick="closeWin('win-store','store')" onmousedown="event.stopPropagation()">✕</button>
   </div>
   <div class="win-body" style="overflow:hidden">
     <div class="store-body">
