@@ -551,18 +551,27 @@ function showCat(cat, el){
   let html=`<div class="store-banner"><h2>${meta.title}</h2><p>${meta.sub}</p></div><div class="store-grid">`;
   items.forEach(app=>{
     const installed=STORE_INSTALLED.includes(app.id)||app.internal;
+    const isInternal=app.internal;
     html+=`<div class="store-card">
       <div class="sc-icon" style="background:${app.bg}">${app.icon}</div>
       <div class="sc-name">${app.name}</div>
       <div class="sc-desc">${app.desc}</div>
-      <button class="sc-btn${installed?' installed':''}" data-appid="${app.id}">${installed?'✓ מותקן':'+ הורד'}</button>
+      ${installed && !isInternal
+        ? `<div style="display:flex;gap:6px">
+             <button class="sc-btn installed" data-appid="${app.id}" style="flex:1">✓ מותקן</button>
+             <button class="sc-btn sc-remove" data-removeid="${app.id}" title="הסר" style="flex:0 0 32px;background:rgba(255,80,80,.2);color:#ff6b6b">🗑</button>
+           </div>`
+        : `<button class="sc-btn${isInternal?' installed':''}" data-appid="${app.id}">${isInternal?'✓ מובנה':'+ הורד'}</button>`
+      }
     </div>`;
   });
   html+='</div>';
   main.innerHTML=html;
-  // attach click listeners
-  main.querySelectorAll('.sc-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>installApp(btn.dataset.appid));
+  main.querySelectorAll('.sc-btn:not(.sc-remove)').forEach(btn=>{
+    if(btn.dataset.appid) btn.addEventListener('click',()=>installApp(btn.dataset.appid));
+  });
+  main.querySelectorAll('.sc-remove').forEach(btn=>{
+    btn.addEventListener('click',()=>uninstallApp(btn.dataset.removeid));
   });
 }
 
@@ -575,7 +584,20 @@ function installApp(appId){
   }
   addToDock(app);
   showNotif(`${app.name} הותקן! 🎉`,`לחץ על האייקון בדוק`);
-  // refresh current category
+  const active=document.querySelector('.store-cat.active');
+  if(active) showCat(currentStoreCat, active);
+}
+
+function uninstallApp(appId){
+  const app=allAppsMap[appId]; if(!app) return;
+  const idx=STORE_INSTALLED.indexOf(appId);
+  if(idx>-1) STORE_INSTALLED.splice(idx,1);
+  localStorage.setItem('biros_installed',JSON.stringify(STORE_INSTALLED));
+  // remove from dock
+  const dockItem=document.getElementById('dock-extra-'+appId);
+  if(dockItem) dockItem.remove();
+  delete dockExtraApps[appId];
+  showNotif(`${app.name} הוסר`,`האפליקציה הוסרה מהדוק`);
   const active=document.querySelector('.store-cat.active');
   if(active) showCat(currentStoreCat, active);
 }
