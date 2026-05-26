@@ -127,7 +127,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
 <!-- DESKTOP ICONS -->
 <div id="desktop">
   <div class="desktop-icon" ondblclick="openApp('store')">
-    <div class="icon-img" style="background:linear-gradient(135deg,#1a1a2e,#4c1d95)">🏪</div>
+    <div class="icon-img" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">🏪</div>
     <span>חנות</span>
   </div>
   <div class="desktop-icon" ondblclick="openApp('budget')">
@@ -142,9 +142,9 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
     <div class="icon-img" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">🤖</div>
     <span>AI Social</span>
   </div>
-  <div class="desktop-icon" ondblclick="openApp('ping')">
-    <div class="icon-img" style="background:linear-gradient(135deg,#d63384,#9333ea)">💸</div>
-    <span>פינג</span>
+  <div class="desktop-icon" ondblclick="openApp('gesture')">
+    <div class="icon-img" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">✊</div>
+    <span>GestureShare</span>
   </div>
 </div>
 
@@ -251,7 +251,12 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
 </div>
 
 <!-- DOCK -->
-<div id="dock">
+<div id="dock" dir="ltr">
+  <div class="dock-item" id="dock-store" onclick="openApp('store')">
+    <div class="dock-icon" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">🏪</div>
+    <div class="dock-label">חנות</div><div class="dock-dot"></div>
+  </div>
+  <div class="dock-sep"></div>
   <div class="dock-item" id="dock-budget" onclick="openApp('budget')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#f97316,#fb923c)">💰</div>
     <div class="dock-label">הכסף שלי</div><div class="dock-dot"></div>
@@ -264,26 +269,18 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
     <div class="dock-icon" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">🤖</div>
     <div class="dock-label">AI Social</div><div class="dock-dot"></div>
   </div>
-  <div class="dock-item" id="dock-ping" onclick="openApp('ping')">
-    <div class="dock-icon" style="background:linear-gradient(135deg,#d63384,#9333ea)">💸</div>
-    <div class="dock-label">פינג</div><div class="dock-dot"></div>
-  </div>
   <div class="dock-item" id="dock-gesture" onclick="openApp('gesture')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">✊</div>
     <div class="dock-label">GestureShare</div><div class="dock-dot"></div>
   </div>
+  <div class="dock-sep"></div>
   <div class="dock-item" id="dock-youtube" onclick="openBrowserApp({url:'https://youtube.com',name:'YouTube',icon:'▶️',bg:'#FF0000',id:'youtube'})">
     <div class="dock-icon" style="background:#FF0000">▶️</div>
     <div class="dock-label">YouTube</div><div class="dock-dot"></div>
   </div>
-  <div class="dock-sep"></div>
   <div class="dock-item" id="dock-browser" onclick="openApp('browser')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">🌐</div>
     <div class="dock-label">דפדפן</div><div class="dock-dot"></div>
-  </div>
-  <div class="dock-item" id="dock-store" onclick="openApp('store')">
-    <div class="dock-icon" style="background:linear-gradient(135deg,#1a1a2e,#4c1d95)">🏪</div>
-    <div class="dock-label">חנות</div><div class="dock-dot"></div>
   </div>
   <div class="dock-sep"></div>
   <div id="dock-installed"></div>
@@ -315,7 +312,6 @@ const apps={
   gesture:{win:'win-gesture',dock:'dock-gesture'},
   browser:{win:'win-browser',dock:'dock-browser'},
   store:{win:'win-store',dock:'dock-store'},
-  ping:{win:'win-ping',dock:'dock-ping'},
 };
 
 function openApp(id){
@@ -420,7 +416,6 @@ const storeApps = {
     {id:'budget',icon:'💰',bg:'linear-gradient(135deg,#f97316,#fb923c)',name:'הכסף שלי',desc:'ניהול תקציב וחיסכון',internal:true},
     {id:'birgsol',icon:'💬',bg:'linear-gradient(135deg,#22c55e,#16a34a)',name:'BIRGSOL AI',desc:'שיחות עם AI',internal:true},
     {id:'social',icon:'🤖',bg:'linear-gradient(135deg,#3b82f6,#1d4ed8)',name:'AI Social',desc:'רשת חברתית AI',internal:true},
-    {id:'ping',icon:'💸',bg:'linear-gradient(135deg,#d63384,#9333ea)',name:'פינג',desc:'שלח כסף כמו Bit',internal:true},
     {id:'gesture',icon:'✊',bg:'linear-gradient(135deg,#8b5cf6,#6d28d9)',name:'GestureShare',desc:'שתף תמונות עם יד',internal:true},
   ],
   google:[
