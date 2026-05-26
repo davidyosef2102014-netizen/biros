@@ -239,8 +239,11 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
         <h3>קטגוריות</h3>
         <div class="store-cat active" onclick="showCat('birgsol',this)">🌟 בירגסול</div>
         <div class="store-cat" onclick="showCat('google',this)">🔍 גוגל</div>
-        <div class="store-cat" onclick="showCat('tools',this)">🛠️ כלים</div>
+        <div class="store-cat" onclick="showCat('entertainment',this)">🎬 בידור</div>
         <div class="store-cat" onclick="showCat('social',this)">💬 תקשורת</div>
+        <div class="store-cat" onclick="showCat('tools',this)">🛠️ כלים</div>
+        <div class="store-cat" onclick="showCat('education',this)">📚 לימוד</div>
+        <div class="store-cat" onclick="showCat('news',this)">📰 חדשות</div>
       </div>
       <div class="store-main" id="store-main"></div>
     </div>
@@ -268,6 +271,10 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
   <div class="dock-item" id="dock-gesture" onclick="openApp('gesture')">
     <div class="dock-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">✊</div>
     <div class="dock-label">GestureShare</div><div class="dock-dot"></div>
+  </div>
+  <div class="dock-item" id="dock-youtube" onclick="openBrowserApp({url:'https://youtube.com',name:'YouTube',icon:'▶️',bg:'#FF0000',id:'youtube'})">
+    <div class="dock-icon" style="background:#FF0000">▶️</div>
+    <div class="dock-label">YouTube</div><div class="dock-dot"></div>
   </div>
   <div class="dock-sep"></div>
   <div class="dock-item" id="dock-browser" onclick="openApp('browser')">
@@ -417,36 +424,104 @@ const storeApps = {
     {id:'gesture',icon:'✊',bg:'linear-gradient(135deg,#8b5cf6,#6d28d9)',name:'GestureShare',desc:'שתף תמונות עם יד',internal:true},
   ],
   google:[
-    {id:'gmail',icon:'📧',bg:'#EA4335',name:'Gmail',desc:'אימייל של גוגל',url:'https://mail.google.com'},
-    {id:'gdocs',icon:'📄',bg:'#4285F4',name:'Google Docs',desc:'עריכת מסמכים',url:'https://docs.google.com'},
-    {id:'gdrive',icon:'🗂️',bg:'#FBBC05',name:'Google Drive',desc:'אחסון בענן',url:'https://drive.google.com'},
-    {id:'gmaps',icon:'🗺️',bg:'#34A853',name:'Google Maps',desc:'מפות וניווט',url:'https://maps.google.com'},
-    {id:'youtube',icon:'▶️',bg:'#FF0000',name:'YouTube',desc:'סרטונים',url:'https://youtube.com'},
-    {id:'gcal',icon:'📅',bg:'#4285F4',name:'Google Calendar',desc:'לוח שנה',url:'https://calendar.google.com'},
+    {id:'youtube',  icon:'▶️', bg:'#FF0000',name:'YouTube',      desc:'סרטונים וסרטים',         url:'https://youtube.com'},
+    {id:'gmail',    icon:'📧', bg:'#EA4335',name:'Gmail',         desc:'אימייל של גוגל',          url:'https://mail.google.com'},
+    {id:'gdrive',   icon:'🗂️', bg:'#FBBC05',name:'Google Drive', desc:'אחסון בענן',              url:'https://drive.google.com'},
+    {id:'gdocs',    icon:'📄', bg:'#4285F4',name:'Google Docs',   desc:'עריכת מסמכים',            url:'https://docs.google.com'},
+    {id:'gsheets',  icon:'📊', bg:'#34A853',name:'Google Sheets', desc:'גיליונות אלקטרוניים',     url:'https://sheets.google.com'},
+    {id:'gslides',  icon:'📽️', bg:'#FBBC05',name:'Google Slides', desc:'מצגות',                  url:'https://slides.google.com'},
+    {id:'gmaps',    icon:'🗺️', bg:'#34A853',name:'Google Maps',   desc:'מפות וניווט',             url:'https://maps.google.com'},
+    {id:'gcal',     icon:'📅', bg:'#4285F4',name:'Google Calendar',desc:'לוח שנה',               url:'https://calendar.google.com'},
+    {id:'gmeet',    icon:'🎥', bg:'#00897B',name:'Google Meet',   desc:'שיחות וידאו',             url:'https://meet.google.com'},
+    {id:'gchat',    icon:'💬', bg:'#4285F4',name:'Google Chat',   desc:'צ\'אט קבוצתי',            url:'https://chat.google.com'},
+    {id:'gclassroom',icon:'🎓',bg:'#4CAF50',name:'Google Classroom',desc:'כיתה דיגיטלית',        url:'https://classroom.google.com'},
+    {id:'gforms',   icon:'📋', bg:'#7248B9',name:'Google Forms',  desc:'טפסים וסקרים',            url:'https://forms.google.com'},
+    {id:'gphotos',  icon:'🖼️', bg:'#EA4335',name:'Google Photos', desc:'תמונות וגיבוי',           url:'https://photos.google.com'},
+    {id:'gkeep',    icon:'📝', bg:'#FBBC05',name:'Google Keep',   desc:'פתקים מהירים',            url:'https://keep.google.com'},
+    {id:'gtranslate',icon:'🌍',bg:'linear-gradient(135deg,#4285F4,#34A853)',name:'Translate',desc:'תרגום גוגל',url:'https://translate.google.com'},
+    {id:'gnews',    icon:'📰', bg:'#4285F4',name:'Google News',   desc:'חדשות גוגל',              url:'https://news.google.com'},
+    {id:'gearth',   icon:'🌍', bg:'#34A853',name:'Google Earth',  desc:'גלובוס תלת-מימד',         url:'https://earth.google.com'},
+    {id:'gplay',    icon:'🎮', bg:'linear-gradient(135deg,#EA4335,#FBBC05)',name:'Google Play',desc:'אפליקציות',url:'https://play.google.com'},
+    {id:'gbooks',   icon:'📚', bg:'#4285F4',name:'Google Books',  desc:'ספרים דיגיטליים',         url:'https://books.google.com'},
+    {id:'gcontacts',icon:'👤', bg:'#34A853',name:'Google Contacts',desc:'אנשי קשר',              url:'https://contacts.google.com'},
+    {id:'gconsole', icon:'👾', bg:'#4285F4',name:'Google Play Games',desc:'משחקים ב-Play',       url:'https://playgames.google.com'},
+    {id:'ymusic',   icon:'🎵', bg:'#FF0000',name:'YouTube Music', desc:'מוזיקה ב-YouTube',        url:'https://music.youtube.com'},
   ],
-  tools:[
-    {id:'wikipedia',icon:'📖',bg:'#333',name:'ויקיפדיה',desc:'אנציקלופדיה חופשית',url:'https://he.wikipedia.org'},
-    {id:'weather',icon:'🌤️',bg:'linear-gradient(135deg,#0ea5e9,#38bdf8)',name:'מזג אוויר',desc:'תחזית מזג אוויר',url:'https://weather.com'},
-    {id:'translate',icon:'🌍',bg:'linear-gradient(135deg,#4285F4,#34A853)',name:'תרגום גוגל',desc:'תרגום בין שפות',url:'https://translate.google.com'},
-    {id:'news',icon:'📰',bg:'linear-gradient(135deg,#1a1a2e,#16213e)',name:'חדשות',desc:'חדשות עדכניות',url:'https://news.google.com'},
+  entertainment:[
+    {id:'netflix',  icon:'🎬', bg:'#E50914',name:'Netflix',       desc:'סרטים וסדרות',            url:'https://netflix.com'},
+    {id:'spotify',  icon:'🎵', bg:'#1DB954',name:'Spotify',       desc:'מוזיקה ופודקאסטים',       url:'https://open.spotify.com'},
+    {id:'twitch',   icon:'🟣', bg:'#9146FF',name:'Twitch',        desc:'סטרימינג גיימינג',        url:'https://twitch.tv'},
+    {id:'tiktok',   icon:'🎶', bg:'#000',   name:'TikTok',        desc:'סרטוני TikTok',           url:'https://tiktok.com'},
+    {id:'soundcloud',icon:'🎧',bg:'#FF5500',name:'SoundCloud',    desc:'מוזיקה עצמאית',           url:'https://soundcloud.com'},
+    {id:'disney',   icon:'🏰', bg:'#113CCF',name:'Disney+',       desc:'דיסני, מארוול, סטאר וורס', url:'https://disneyplus.com'},
+    {id:'shazam',   icon:'🔵', bg:'#0088FF',name:'Shazam',        desc:'זהה שיר',                 url:'https://shazam.com'},
+    {id:'kahoot',   icon:'🎯', bg:'#46178F',name:'Kahoot!',       desc:'משחקי חידון',             url:'https://kahoot.it'},
+    {id:'roblox',   icon:'🟥', bg:'#CC0000',name:'Roblox',        desc:'גיימינג',                 url:'https://roblox.com'},
+    {id:'minecraft',icon:'⛏️', bg:'#6E9B3A',name:'Minecraft',    desc:'אתר Minecraft',           url:'https://minecraft.net'},
   ],
   social:[
-    {id:'whatsapp',icon:'💚',bg:'#25D366',name:'WhatsApp Web',desc:'הודעות',url:'https://web.whatsapp.com'},
-    {id:'telegram',icon:'✈️',bg:'#2AABEE',name:'Telegram',desc:'מסרים מהירים',url:'https://web.telegram.org'},
-    {id:'twitter',icon:'🐦',bg:'#1DA1F2',name:'Twitter/X',desc:'רשת חברתית',url:'https://x.com'},
+    {id:'whatsapp', icon:'💚', bg:'#25D366',name:'WhatsApp Web',  desc:'הודעות',                  url:'https://web.whatsapp.com'},
+    {id:'telegram', icon:'✈️', bg:'#2AABEE',name:'Telegram',      desc:'מסרים מהירים',            url:'https://web.telegram.org'},
+    {id:'twitter',  icon:'🐦', bg:'#000',   name:'Twitter/X',     desc:'רשת חברתית',              url:'https://x.com'},
+    {id:'instagram',icon:'📸', bg:'linear-gradient(135deg,#833AB4,#FD1D1D,#F77737)',name:'Instagram',desc:'תמונות וסטוריז',url:'https://instagram.com'},
+    {id:'facebook', icon:'👥', bg:'#1877F2',name:'Facebook',       desc:'רשת חברתית',              url:'https://facebook.com'},
+    {id:'discord',  icon:'🎮', bg:'#5865F2',name:'Discord',        desc:'קהילות וצ\'אט',           url:'https://discord.com'},
+    {id:'reddit',   icon:'🤖', bg:'#FF4500',name:'Reddit',         desc:'פורומים ודיונים',         url:'https://reddit.com'},
+    {id:'linkedin', icon:'💼', bg:'#0A66C2',name:'LinkedIn',       desc:'רשת מקצועית',             url:'https://linkedin.com'},
+    {id:'snapchat', icon:'👻', bg:'#FFFC00',name:'Snapchat',       desc:'סנאפ',                    url:'https://snapchat.com'},
+    {id:'pinterest',icon:'📌', bg:'#E60023',name:'Pinterest',      desc:'השראה ויזואלית',           url:'https://pinterest.com'},
+  ],
+  tools:[
+    {id:'wikipedia',icon:'📖', bg:'#333',   name:'ויקיפדיה',       desc:'אנציקלופדיה',             url:'https://he.wikipedia.org'},
+    {id:'weather',  icon:'🌤️', bg:'linear-gradient(135deg,#0ea5e9,#38bdf8)',name:'מזג אוויר',desc:'תחזית',url:'https://weather.com'},
+    {id:'canva',    icon:'🎨', bg:'#00C4CC',name:'Canva',           desc:'עיצוב גרפי',              url:'https://canva.com'},
+    {id:'notion',   icon:'📓', bg:'#000',   name:'Notion',          desc:'רשימות ועבודה',           url:'https://notion.so'},
+    {id:'figma',    icon:'🖌️', bg:'#F24E1E',name:'Figma',           desc:'עיצוב ממשקים',            url:'https://figma.com'},
+    {id:'github',   icon:'🐙', bg:'#24292F',name:'GitHub',          desc:'קוד פתוח',                url:'https://github.com'},
+    {id:'wolfram',  icon:'🔢', bg:'#DD1100',name:'Wolfram Alpha',   desc:'חישובים ומדע',            url:'https://wolframalpha.com'},
+    {id:'trello',   icon:'📋', bg:'#0052CC',name:'Trello',          desc:'ניהול משימות',             url:'https://trello.com'},
+    {id:'miro',     icon:'🟡', bg:'#FFD02F',name:'Miro',            desc:'לוח שיתופי',              url:'https://miro.com'},
+    {id:'chatgpt',  icon:'🤖', bg:'#10A37F',name:'ChatGPT',         desc:'AI של OpenAI',            url:'https://chatgpt.com'},
+  ],
+  education:[
+    {id:'duolingo', icon:'🦉', bg:'#58CC02',name:'Duolingo',        desc:'שפות',                    url:'https://duolingo.com'},
+    {id:'khan',     icon:'🟢', bg:'#14BF96',name:'Khan Academy',    desc:'שיעורים חינמיים',          url:'https://khanacademy.org'},
+    {id:'quizlet',  icon:'📖', bg:'#4255FF',name:'Quizlet',         desc:'כרטיסיות לימוד',           url:'https://quizlet.com'},
+    {id:'photomath',icon:'📐', bg:'#00A8E8',name:'Photomath',       desc:'פתרון תרגילים',            url:'https://photomath.com'},
+    {id:'coursera', icon:'🎓', bg:'#0056D2',name:'Coursera',        desc:'קורסים מהאוניברסיטאות',   url:'https://coursera.org'},
+    {id:'brainly',  icon:'🧠', bg:'#B03A2E',name:'Brainly',         desc:'שיעורי בית בעזרה',         url:'https://brainly.com'},
+    {id:'desmos',   icon:'📈', bg:'#6A0DAD',name:'Desmos',          desc:'גרפים מתמטיים',            url:'https://desmos.com'},
+    {id:'scratch',  icon:'🐱', bg:'#FF8C1A',name:'Scratch',         desc:'תכנות לילדים',             url:'https://scratch.mit.edu'},
+  ],
+  news:[
+    {id:'ynet',     icon:'📡', bg:'linear-gradient(135deg,#c00,#900)',name:'ynet',desc:'חדשות ישראל',url:'https://ynet.co.il'},
+    {id:'walla',    icon:'🔵', bg:'#003399',name:'Walla',            desc:'חדשות ופורטל',            url:'https://news.walla.co.il'},
+    {id:'mako',     icon:'📺', bg:'#E50914',name:'Mako',             desc:'חדשות וטלוויזיה',         url:'https://mako.co.il'},
+    {id:'kan',      icon:'📻', bg:'#0070C0',name:'כאן',              desc:'שידור ציבורי',            url:'https://kan.org.il'},
+    {id:'bbc',      icon:'🌐', bg:'#BB1919',name:'BBC',              desc:'חדשות בינלאומיות',        url:'https://bbc.com'},
+    {id:'cnn',      icon:'📡', bg:'#CC0000',name:'CNN',              desc:'חדשות עולמיות',           url:'https://cnn.com'},
   ]
 };
 
+const catMeta={
+  birgsol:{title:'🌟 אפליקציות בירגסול',sub:'כל האפליקציות שבנינו יחד'},
+  google:  {title:'🔍 גוגל',           sub:'22 אפליקציות של גוגל'},
+  entertainment:{title:'🎬 בידור',     sub:'סרטים, מוזיקה ומשחקים'},
+  social:  {title:'💬 תקשורת',         sub:'רשתות חברתיות ומסרים'},
+  tools:   {title:'🛠️ כלים',           sub:'כלים לעבודה ויצירה'},
+  education:{title:'📚 לימוד',         sub:'אפליקציות לימוד'},
+  news:    {title:'📰 חדשות',           sub:'חדשות מישראל ומהעולם'},
+};
 function showCat(cat, el){
   document.querySelectorAll('.store-cat').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
   const main=document.getElementById('store-main');
   const items=storeApps[cat]||[];
-  const isBirgsol=cat==='birgsol';
+  const meta=catMeta[cat]||{title:cat,sub:''};
   main.innerHTML=`
     <div class="store-banner">
-      <h2>${isBirgsol?'🌟 אפליקציות בירגסול':'🔍 '+(cat==='google'?'גוגל':cat==='tools'?'כלים':'תקשורת')}</h2>
-      <p>${isBirgsol?'כל האפליקציות שבנינו יחד':'לחץ הורד כדי להוסיף לדוק'}</p>
+      <h2>${meta.title}</h2>
+      <p>${meta.sub}</p>
     </div>
     <div class="store-grid">
       ${items.map(app=>{
