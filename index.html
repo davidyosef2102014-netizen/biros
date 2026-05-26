@@ -512,43 +512,49 @@ const catMeta={
   education:{title:'📚 לימוד',         sub:'אפליקציות לימוד'},
   news:    {title:'📰 חדשות',           sub:'חדשות מישראל ומהעולם'},
 };
+
+// flat lookup map: id → app object
+const allAppsMap={};
+Object.entries(storeApps).forEach(([cat,arr])=>arr.forEach(a=>{allAppsMap[a.id]={...a,_cat:cat};}));
+
+let currentStoreCat='birgsol';
 function showCat(cat, el){
+  currentStoreCat=cat;
   document.querySelectorAll('.store-cat').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
   const main=document.getElementById('store-main');
   const items=storeApps[cat]||[];
   const meta=catMeta[cat]||{title:cat,sub:''};
-  main.innerHTML=`
-    <div class="store-banner">
-      <h2>${meta.title}</h2>
-      <p>${meta.sub}</p>
-    </div>
-    <div class="store-grid">
-      ${items.map(app=>{
-        const installed=STORE_INSTALLED.includes(app.id)||app.internal;
-        return `<div class="store-card">
-          <div class="sc-icon" style="background:${app.bg}">${app.icon}</div>
-          <div class="sc-name">${app.name}</div>
-          <div class="sc-desc">${app.desc}</div>
-          <button class="sc-btn ${installed?'installed':''}" onclick="installApp(${JSON.stringify(app).replace(/"/g,'&quot;')})">
-            ${installed?'✓ מותקן':'+ הורד'}
-          </button>
-        </div>`;
-      }).join('')}
+  let html=`<div class="store-banner"><h2>${meta.title}</h2><p>${meta.sub}</p></div><div class="store-grid">`;
+  items.forEach(app=>{
+    const installed=STORE_INSTALLED.includes(app.id)||app.internal;
+    html+=`<div class="store-card">
+      <div class="sc-icon" style="background:${app.bg}">${app.icon}</div>
+      <div class="sc-name">${app.name}</div>
+      <div class="sc-desc">${app.desc}</div>
+      <button class="sc-btn${installed?' installed':''}" data-appid="${app.id}">${installed?'✓ מותקן':'+ הורד'}</button>
     </div>`;
+  });
+  html+='</div>';
+  main.innerHTML=html;
+  // attach click listeners
+  main.querySelectorAll('.sc-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>installApp(btn.dataset.appid));
+  });
 }
 
-function installApp(app){
+function installApp(appId){
+  const app=allAppsMap[appId]; if(!app) return;
   if(app.internal){ openApp(app.id); return; }
   if(!STORE_INSTALLED.includes(app.id)){
     STORE_INSTALLED.push(app.id);
     localStorage.setItem('biros_installed',JSON.stringify(STORE_INSTALLED));
   }
-  // add to dock
   addToDock(app);
   showNotif(`${app.name} הותקן! 🎉`,`לחץ על האייקון בדוק`);
-  // refresh store
-  document.querySelector('.store-cat.active')?.click();
+  // refresh current category
+  const active=document.querySelector('.store-cat.active');
+  if(active) showCat(currentStoreCat, active);
 }
 
 const dockExtraApps={};
