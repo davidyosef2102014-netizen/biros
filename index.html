@@ -362,10 +362,26 @@ function bringToFront(win){document.querySelectorAll('.window').forEach(w=>w.cla
 
 // ── BROWSER ──
 let currentBrowserUrl='';
+// Sites known to block iframe embedding — open directly in new tab
+const BLOCKED_EMBED=['youtube.com','youtu.be','music.youtube.com',
+  'google.com','mail.google.com','drive.google.com','docs.google.com',
+  'sheets.google.com','slides.google.com','maps.google.com',
+  'calendar.google.com','meet.google.com','chat.google.com',
+  'classroom.google.com','forms.google.com','photos.google.com',
+  'keep.google.com','translate.google.com','news.google.com',
+  'earth.google.com','play.google.com','books.google.com',
+  'contacts.google.com','playgames.google.com',
+  'facebook.com','instagram.com','twitter.com','x.com',
+  'whatsapp.com','web.whatsapp.com','snapchat.com',
+  'netflix.com','tiktok.com','twitch.tv','discord.com',
+  'linkedin.com','reddit.com'];
+function isBlocked(url){
+  try{const h=new URL(url).hostname.replace('www.',''); return BLOCKED_EMBED.some(b=>h===b||h.endsWith('.'+b));}
+  catch(e){return false;}
+}
 function browserGo(){
   let url=document.getElementById('browser-url').value.trim();
   if(!url) return;
-  // if it's a search query (no dot or space), search Google
   if(!url.startsWith('http') && !url.includes('.') || url.includes(' ')){
     url='https://www.google.com/search?q='+encodeURIComponent(url);
   } else if(!url.startsWith('http')){
@@ -374,20 +390,32 @@ function browserGo(){
   currentBrowserUrl=url;
   document.getElementById('browser-url').value=url;
   document.getElementById('browser-win-title').textContent='🌐 '+url.replace('https://','').split('/')[0];
+  if(isBlocked(url)){
+    showBrowserFallback(url); return;
+  }
   const iframe=document.getElementById('browser-iframe');
   const fallback=document.getElementById('browser-fallback');
   fallback.style.display='none';
   iframe.style.display='block';
   iframe.src=url;
-  // After 4s if still about:blank-like or blocked, show fallback
   setTimeout(()=>{
-    try{if(iframe.contentDocument?.location?.href==='about:blank'||!iframe.contentDocument)showBrowserFallback();}
-    catch(e){showBrowserFallback();}
-  },4000);
+    try{if(iframe.contentDocument?.location?.href==='about:blank'||!iframe.contentDocument)showBrowserFallback(url);}
+    catch(e){showBrowserFallback(url);}
+  },3000);
 }
-function showBrowserFallback(){
+function showBrowserFallback(url){
+  const u=url||currentBrowserUrl;
+  const host=u?u.replace('https://','').replace('http://','').split('/')[0]:'האתר';
   document.getElementById('browser-iframe').style.display='none';
-  document.getElementById('browser-fallback').style.display='flex';
+  const fb=document.getElementById('browser-fallback');
+  fb.style.display='flex';
+  fb.innerHTML=`
+    <div style="font-size:52px">🔗</div>
+    <div style="font-size:17px;font-weight:700">${host}</div>
+    <div style="font-size:13px;opacity:.7;max-width:280px;line-height:1.5">אתר זה חוסם הטמעה מטעמי אבטחה.<br>לחץ כדי לפתוח בדפדפן ישירות:</div>
+    <button onclick="window.open('${u}','_blank')" style="background:linear-gradient(135deg,#6c63ff,#a855f7);border:none;border-radius:12px;color:#fff;padding:13px 28px;font-size:15px;cursor:pointer;margin-top:4px">
+      🚀 פתח את ${host}
+    </button>`;
 }
 function onBrowserLoad(){
   try{
