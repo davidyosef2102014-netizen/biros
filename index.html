@@ -334,9 +334,16 @@ function minWin(winId){ closeWin(winId,null); }
 let maximized={};
 function maxWin(winId){
   const win=document.getElementById(winId);
-  if(maximized[winId]){Object.assign(win.style,maximized[winId]);delete maximized[winId];}
-  else{maximized[winId]={top:win.style.top,left:win.style.left,width:win.style.width,height:win.style.height};
-    Object.assign(win.style,{top:'28px',left:'0',width:'100vw',height:'calc(100vh - 108px)'});}
+  if(maximized[winId]){
+    Object.assign(win.style,maximized[winId]);
+    win.style.borderRadius='14px';
+    win.style.zIndex='';
+    win.style.resize='both';
+    delete maximized[winId];
+  } else {
+    maximized[winId]={top:win.style.top,left:win.style.left,width:win.style.width,height:win.style.height};
+    Object.assign(win.style,{top:'0',left:'0',width:'100vw',height:'100vh',borderRadius:'0',zIndex:'1500',resize:'none'});
+  }
 }
 
 // ── DRAG ──
