@@ -25,15 +25,16 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
 #desktop { position:fixed; inset:28px 0 80px 0; z-index:1; padding:20px; display:flex; flex-direction:column; align-items:flex-end; gap:16px; }
 .desktop-icon { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; padding:8px; border-radius:12px; width:80px; transition:background .2s; }
 .desktop-icon:hover { background:rgba(255,255,255,.1); }
-.desktop-icon .icon-img { width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 20px rgba(0,0,0,.4); }
+.desktop-icon .icon-img { width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 20px rgba(0,0,0,.4); position:relative; }
 .desktop-icon span { color:#fff; font-size:11px; text-align:center; text-shadow:0 1px 4px rgba(0,0,0,.8); line-height:1.3; }
+.ai-badge { position:absolute; bottom:-4px; right:-4px; background:linear-gradient(135deg,#4285F4,#9C6ADE); color:#fff; font-size:9px; font-weight:800; padding:2px 5px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,.5); border:1.5px solid rgba(255,255,255,.85); line-height:1; letter-spacing:.2px; }
 
 /* DOCK */
 #dock { position:fixed; bottom:12px; left:50%; transform:translateX(-50%); z-index:1000; display:flex; align-items:flex-end; gap:10px; background:rgba(30,30,40,.6); backdrop-filter:blur(30px); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:8px 14px; box-shadow:0 8px 32px rgba(0,0,0,.5); max-width:95vw; overflow-x:auto; }
 .dock-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; position:relative; transition:transform .2s; flex-shrink:0; }
 .dock-item:hover { transform:scale(1.25) translateY(-8px); }
 .dock-item:hover .dock-label { opacity:1; transform:translateY(0); }
-.dock-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 16px rgba(0,0,0,.4); }
+.dock-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 16px rgba(0,0,0,.4); position:relative; }
 .dock-label { position:absolute; bottom:62px; background:rgba(30,30,40,.9); color:#fff; font-size:11px; padding:3px 8px; border-radius:6px; white-space:nowrap; opacity:0; transform:translateY(4px); transition:all .2s; pointer-events:none; border:1px solid rgba(255,255,255,.1); }
 .dock-dot { width:4px; height:4px; background:#fff; border-radius:50%; opacity:0; }
 .dock-item.running .dock-dot { opacity:.7; }
@@ -135,7 +136,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
     <span>הכסף שלי</span>
   </div>
   <div class="desktop-icon" ondblclick="openApp('birgsol')">
-    <div class="icon-img" style="background:linear-gradient(135deg,#22c55e,#16a34a)">💬</div>
+    <div class="icon-img" style="background:linear-gradient(135deg,#22c55e,#16a34a)">💬<span class="ai-badge">AI</span></div>
     <span>BIRGSOL AI</span>
   </div>
   <div class="desktop-icon" ondblclick="openApp('social')">
@@ -262,7 +263,7 @@ body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; overflow:hidde
     <div class="dock-label">הכסף שלי</div><div class="dock-dot"></div>
   </div>
   <div class="dock-item" id="dock-birgsol" onclick="openApp('birgsol')">
-    <div class="dock-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">💬</div>
+    <div class="dock-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">💬<span class="ai-badge">AI</span></div>
     <div class="dock-label">BIRGSOL AI</div><div class="dock-dot"></div>
   </div>
   <div class="dock-item" id="dock-social" onclick="openApp('social')">
@@ -362,10 +363,26 @@ function bringToFront(win){document.querySelectorAll('.window').forEach(w=>w.cla
 
 // ── BROWSER ──
 let currentBrowserUrl='';
+// Sites known to block iframe embedding — open directly in new tab
+const BLOCKED_EMBED=['youtube.com','youtu.be','music.youtube.com',
+  'google.com','mail.google.com','drive.google.com','docs.google.com',
+  'sheets.google.com','slides.google.com','maps.google.com',
+  'calendar.google.com','meet.google.com','chat.google.com',
+  'classroom.google.com','forms.google.com','photos.google.com',
+  'keep.google.com','translate.google.com','news.google.com',
+  'earth.google.com','play.google.com','books.google.com',
+  'contacts.google.com','playgames.google.com',
+  'facebook.com','instagram.com','twitter.com','x.com',
+  'whatsapp.com','web.whatsapp.com','snapchat.com',
+  'netflix.com','tiktok.com','twitch.tv','discord.com',
+  'linkedin.com','reddit.com'];
+function isBlocked(url){
+  try{const h=new URL(url).hostname.replace('www.',''); return BLOCKED_EMBED.some(b=>h===b||h.endsWith('.'+b));}
+  catch(e){return false;}
+}
 function browserGo(){
   let url=document.getElementById('browser-url').value.trim();
   if(!url) return;
-  // if it's a search query (no dot or space), search Google
   if(!url.startsWith('http') && !url.includes('.') || url.includes(' ')){
     url='https://www.google.com/search?q='+encodeURIComponent(url);
   } else if(!url.startsWith('http')){
@@ -374,20 +391,32 @@ function browserGo(){
   currentBrowserUrl=url;
   document.getElementById('browser-url').value=url;
   document.getElementById('browser-win-title').textContent='🌐 '+url.replace('https://','').split('/')[0];
+  if(isBlocked(url)){
+    showBrowserFallback(url); return;
+  }
   const iframe=document.getElementById('browser-iframe');
   const fallback=document.getElementById('browser-fallback');
   fallback.style.display='none';
   iframe.style.display='block';
   iframe.src=url;
-  // After 4s if still about:blank-like or blocked, show fallback
   setTimeout(()=>{
-    try{if(iframe.contentDocument?.location?.href==='about:blank'||!iframe.contentDocument)showBrowserFallback();}
-    catch(e){showBrowserFallback();}
-  },4000);
+    try{if(iframe.contentDocument?.location?.href==='about:blank'||!iframe.contentDocument)showBrowserFallback(url);}
+    catch(e){showBrowserFallback(url);}
+  },3000);
 }
-function showBrowserFallback(){
+function showBrowserFallback(url){
+  const u=url||currentBrowserUrl;
+  const host=u?u.replace('https://','').replace('http://','').split('/')[0]:'האתר';
   document.getElementById('browser-iframe').style.display='none';
-  document.getElementById('browser-fallback').style.display='flex';
+  const fb=document.getElementById('browser-fallback');
+  fb.style.display='flex';
+  fb.innerHTML=`
+    <div style="font-size:52px">🔗</div>
+    <div style="font-size:17px;font-weight:700">${host}</div>
+    <div style="font-size:13px;opacity:.7;max-width:280px;line-height:1.5">אתר זה חוסם הטמעה מטעמי אבטחה.<br>לחץ כדי לפתוח בדפדפן ישירות:</div>
+    <button onclick="window.open('${u}','_blank')" style="background:linear-gradient(135deg,#6c63ff,#a855f7);border:none;border-radius:12px;color:#fff;padding:13px 28px;font-size:15px;cursor:pointer;margin-top:4px">
+      🚀 פתח את ${host}
+    </button>`;
 }
 function onBrowserLoad(){
   try{
@@ -523,18 +552,27 @@ function showCat(cat, el){
   let html=`<div class="store-banner"><h2>${meta.title}</h2><p>${meta.sub}</p></div><div class="store-grid">`;
   items.forEach(app=>{
     const installed=STORE_INSTALLED.includes(app.id)||app.internal;
+    const isInternal=app.internal;
     html+=`<div class="store-card">
       <div class="sc-icon" style="background:${app.bg}">${app.icon}</div>
       <div class="sc-name">${app.name}</div>
       <div class="sc-desc">${app.desc}</div>
-      <button class="sc-btn${installed?' installed':''}" data-appid="${app.id}">${installed?'✓ מותקן':'+ הורד'}</button>
+      ${installed && !isInternal
+        ? `<div style="display:flex;gap:6px">
+             <button class="sc-btn installed" data-appid="${app.id}" style="flex:1">✓ מותקן</button>
+             <button class="sc-btn sc-remove" data-removeid="${app.id}" title="הסר" style="flex:0 0 32px;background:rgba(255,80,80,.2);color:#ff6b6b">🗑</button>
+           </div>`
+        : `<button class="sc-btn${isInternal?' installed':''}" data-appid="${app.id}">${isInternal?'✓ מובנה':'+ הורד'}</button>`
+      }
     </div>`;
   });
   html+='</div>';
   main.innerHTML=html;
-  // attach click listeners
-  main.querySelectorAll('.sc-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>installApp(btn.dataset.appid));
+  main.querySelectorAll('.sc-btn:not(.sc-remove)').forEach(btn=>{
+    if(btn.dataset.appid) btn.addEventListener('click',()=>installApp(btn.dataset.appid));
+  });
+  main.querySelectorAll('.sc-remove').forEach(btn=>{
+    btn.addEventListener('click',()=>uninstallApp(btn.dataset.removeid));
   });
 }
 
@@ -547,7 +585,20 @@ function installApp(appId){
   }
   addToDock(app);
   showNotif(`${app.name} הותקן! 🎉`,`לחץ על האייקון בדוק`);
-  // refresh current category
+  const active=document.querySelector('.store-cat.active');
+  if(active) showCat(currentStoreCat, active);
+}
+
+function uninstallApp(appId){
+  const app=allAppsMap[appId]; if(!app) return;
+  const idx=STORE_INSTALLED.indexOf(appId);
+  if(idx>-1) STORE_INSTALLED.splice(idx,1);
+  localStorage.setItem('biros_installed',JSON.stringify(STORE_INSTALLED));
+  // remove from dock
+  const dockItem=document.getElementById('dock-extra-'+appId);
+  if(dockItem) dockItem.remove();
+  delete dockExtraApps[appId];
+  showNotif(`${app.name} הוסר`,`האפליקציה הוסרה מהדוק`);
   const active=document.querySelector('.store-cat.active');
   if(active) showCat(currentStoreCat, active);
 }
